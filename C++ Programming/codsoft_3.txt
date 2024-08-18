@@ -1,0 +1,72 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+class Task {
+public:
+    string description;
+    bool completed;
+    Task(const string& desc):description(desc),completed(false){}
+};
+int main() {
+    vector<Task>tasks;
+    int choice;
+    string description;
+    int taskNumber;
+
+    while(true){
+        cout<<"To-Do List Manager"<<endl;
+        cout<<"1.Add Task"<<endl;
+        cout<<"2.View Tasks"<<endl;
+        cout<<"3.Mark Task as Completed"<<endl;
+        cout<<"4.Remove Task"<<endl;
+        cout<<"5.Exit"<<endl;
+        cout<<"Enter your choice:";
+        cin>>choice;
+        cin.ignore();
+        switch(choice){
+            case 1:
+                cout<<"Enter task description:";
+                getline(cin,description);
+                tasks.push_back(Task(description));
+                break;
+            case 2:
+                if (tasks.empty()){
+                    cout<<"No tasks to display"<<endl;
+                }else{
+                    for(size_t i=0;i<tasks.size();++i){
+                        cout<<i+1<<"."<<tasks[i].description 
+                             <<(tasks[i].completed?"[Completed]":" [Pending]") 
+                             <<endl;
+                    }
+                }
+                break;
+            case 3:
+                cout<<"Enter task number to mark as completed:";
+                cin>>taskNumber;
+                cin.ignore();
+                if (taskNumber>=1 && taskNumber<= static_cast<int>(tasks.size())){
+                    tasks[taskNumber - 1].completed = true;
+                } else{
+                    cout<<"Invalid task number"<<endl;
+                }
+                break;
+            case 4:
+                cout<<"Enter task number to remove:";
+                cin>>taskNumber;
+                cin.ignore();
+                if (taskNumber>=1 && taskNumber<=static_cast<int>(tasks.size())){
+                    tasks.erase(tasks.begin()+taskNumber-1);
+                } else {
+                    cout<<"Invalid task number"<<endl;
+                }
+                break;
+            case 5:
+                cout<<"Thank You"<<endl;
+                return 0;
+            default:
+                cout<<"Invalid choice"<<endl;
+        }
+    }
+    return 0;
+}
